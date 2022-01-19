@@ -32,23 +32,4 @@ namespace Faker
             }
         }
 
-        private void LoadPluginGenerator(Assembly plugin)
-        {
-            Type generatorType = plugin.GetTypes().FirstOrDefault(type => typeof(IGenerator).IsAssignableFrom(type));
-
-            if (generatorType == null)
-                return;
-
-            if (generatorType.FullName == null)
-                return;
-
-            if (!generatorType.IsClass)
-                return;
-
-            if (plugin.CreateInstance(generatorType.FullName) is IGenerator generatorPlugin)
-            {
-                this.generators.Add(generatorPlugin.GeneratorType, generatorPlugin);
-            }
-        }
-    }
-}
+        
