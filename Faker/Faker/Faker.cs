@@ -168,7 +168,36 @@ namespace Faker
             return false;
         }
 
-        
+        private bool TryConstruct(Type type, out object instance)
+        {
+            object[] prms = null;
+            instance = null;
+            try
+            {
+                if (TryGetMaxParamsConstructor(type, out ConstructorInfo ctn))
+                {
+                    prms = GenerateConstructorParams(ctn);
+                    /*Console.WriteLine(prms.Length);*/
+                    instance = ctn.Invoke(prms);
+                    return true;
+                }
+            }
+            catch
+            {
+                countOfException++;
+                object[] parameters = new object[countOfException];
+                if (prms != null)
+                    for (int i = 0; i < prms.Length - countOfException; i++)
+                    {
+                        parameters[i] = prms[i];
+                    }
+
+                instance = list[constructor].Invoke(parameters);
+                return true;
+            }
+
+            return false;
+        }
         
         private bool TryGetMaxParamsConstructor(Type type, out ConstructorInfo ctn)
         {
