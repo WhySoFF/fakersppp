@@ -70,7 +70,38 @@ namespace Faker
             return default;
         }
 
-        
+        private bool TryGenerateAbstract(Type type, out object instance)
+        {
+            instance = default;
+
+            if (!type.IsAbstract)
+                return false;
+
+            return true;
+        }
+
+        private bool TryGenerateArray(Type type, out object instance)
+        {
+            instance = null;
+            if (!type.IsArray)
+                return false;
+
+            instance = (new ArrayGenerator(this, type)).Create();
+            
+            return true;
+        }
+
+        private bool TryGenerateKnown(Type type, out object instance)
+        {
+            instance = null;
+            if (generators.TryGetValue(type, out IGenerator generator))
+            {
+                instance = generator.Create();
+                return true;                                                                                                                                                                                         
+            }
+
+            return false;
+        }
 
         private bool TryGenerateEnum(Type type, out object instance)
         {
@@ -111,7 +142,31 @@ namespace Faker
         }
 
 
-        
+        private bool TryGenerateCls(Type type, out object instance)
+        {
+            instance = null;
+
+            if (!type.IsClass && !type.IsValueType)
+                return false;
+
+            if (circularReferencesEncounter.Contains(type))
+            {
+                instance = default;
+                return true;
+            }
+
+            circularReferencesEncounter.Add(type);
+            if (TryConstruct(type, out instance))
+            {
+                GenerateFillProps(instance, type);
+                GenerateFillFields(instance, type);
+
+                circularReferencesEncounter.Remove(type);
+                return true;
+            }
+
+            return false;
+        }
 
         private bool TryConstruct(Type type, out object instance)
         {
