@@ -8,14 +8,18 @@ using Main;
 
 namespace Faker
 {
+
+    
+
     public class Faker : IFaker
     {
         private readonly List<Type> circularReferencesEncounter;
-
         private Dictionary<Type, IGenerator> generators;
         private List<ConstructorInfo> list = new List<ConstructorInfo>();
         private int countOfException;
         private int constructor = 0;
+        private Map<int, int> encounter;
+
         public Faker()
         {
             generators = new Dictionary<Type, IGenerator>
@@ -34,6 +38,8 @@ namespace Faker
             PluginLoader loader = new PluginLoader(generators);
             loader.LoadPluginGenerators();
             circularReferencesEncounter = new List<Type>();
+            //var map = new Map<int, string>();
+            encounter = new Map<int, int>();
         }
 
         public T Create<T>()
@@ -141,6 +147,8 @@ namespace Faker
             return true;
         }
 
+        
+
 
         private bool TryGenerateCls(Type type, out object instance)
         {
@@ -151,11 +159,13 @@ namespace Faker
 
             if (circularReferencesEncounter.Contains(type))
             {
-                instance = default;
-                return true;
+                
+                    instance = default;
+                    return true;
             }
 
             circularReferencesEncounter.Add(type);
+
             if (TryConstruct(type, out instance))
             {
                 GenerateFillProps(instance, type);
@@ -167,6 +177,7 @@ namespace Faker
 
             return false;
         }
+
 
         private bool TryConstruct(Type type, out object instance)
         {
@@ -198,7 +209,7 @@ namespace Faker
 
             return false;
         }
-        
+
         private bool TryGetMaxParamsConstructor(Type type, out ConstructorInfo ctn)
         {
             list.Clear();

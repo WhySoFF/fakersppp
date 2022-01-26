@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using Faker;
 using Faker.BaseTypes;
 using System.Collections.Generic;
-
 namespace Main
 {
     class Program
