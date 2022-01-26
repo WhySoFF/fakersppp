@@ -18,7 +18,7 @@ namespace Faker
         private List<ConstructorInfo> list = new List<ConstructorInfo>();
         private int countOfException;
         private int constructor = 0;
-        private Map<int, int> encounter;
+        private Map<Type, int> encounter;
 
         public Faker()
         {
@@ -39,7 +39,7 @@ namespace Faker
             loader.LoadPluginGenerators();
             circularReferencesEncounter = new List<Type>();
             //var map = new Map<int, string>();
-            encounter = new Map<int, int>();
+            encounter = new Map<Type, int>();
         }
 
         public T Create<T>()
@@ -147,8 +147,19 @@ namespace Faker
             return true;
         }
 
-        
+        private static void ShowMap(Map<Type, int> map, string title)
+        {
+            Console.WriteLine($"{title}: ");
+            foreach (var key in map.Keys)
+            {
+                var value = map.Get(key);
+                Console.WriteLine($"{key} - {value}");
+            }
+            Console.WriteLine();
+        }
 
+
+        int counter = 0;
 
         private bool TryGenerateCls(Type type, out object instance)
         {
@@ -157,21 +168,45 @@ namespace Faker
             if (!type.IsClass && !type.IsValueType)
                 return false;
 
-            if (circularReferencesEncounter.Contains(type))
+            if (encounter.Contain(type))
             {
-                
+                if(encounter.Get(type) == 2)
+                {
+                    Console.WriteLine("mamasita");
+
                     instance = default;
                     return true;
+                }
+
+                counter++;
+                encounter.Update(type, counter);
+
+            }
+            else
+            {
+                encounter.Add(type, counter);
             }
 
-            circularReferencesEncounter.Add(type);
+
+
+            //ShowMap(encounter, "hello");
+
+
+            /*if (circularReferencesEncounter.Contains(type))
+            {
+
+                instance = default;
+                return true;
+            }
+
+            circularReferencesEncounter.Add(type);*/
 
             if (TryConstruct(type, out instance))
             {
                 GenerateFillProps(instance, type);
                 GenerateFillFields(instance, type);
 
-                circularReferencesEncounter.Remove(type);
+                encounter.Remove(type);
                 return true;
             }
 
@@ -183,8 +218,8 @@ namespace Faker
         {
             object[] prms = null;
             instance = null;
-            try
-            {
+            /*try
+            {*/
                 if (TryGetMaxParamsConstructor(type, out ConstructorInfo ctn))
                 {
                     prms = GenerateConstructorParams(ctn);
@@ -192,7 +227,7 @@ namespace Faker
                     instance = ctn.Invoke(prms);
                     return true;
                 }
-            }
+            /*}
             catch
             {
                 countOfException++;
@@ -205,7 +240,7 @@ namespace Faker
 
                 instance = list[constructor].Invoke(parameters);
                 return true;
-            }
+            }*/
 
             return false;
         }
