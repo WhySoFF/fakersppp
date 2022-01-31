@@ -112,7 +112,7 @@ namespace Faker
             return false;
         }
 
-        public bool containType(String value)
+        public bool ContainType(String value)
         {
             
             if (_items.Any(i => i.Key.ToString().Equals(value)))

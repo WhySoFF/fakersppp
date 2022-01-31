@@ -169,7 +169,7 @@ namespace Faker
             if (!type.IsClass && !type.IsValueType)
                 return false;
 
-            //ShowMap(encounter, "hello");
+            ShowMap(encounter, "hello");
             //Console.WriteLine(type);
 
 
@@ -177,9 +177,9 @@ namespace Faker
             {
                 if (encounter.Contain(type))
                 {
-                    if(dogCounter == 2)
+                    if(dogCounter == 4)
                     {
-                        instance = default;
+                        instance = default; 
                         return true;
                     }
                     else
@@ -194,13 +194,15 @@ namespace Faker
                     dogCounter++;
                 }
 
+                dogCounter--;
+
             }
 
             if (type.ToString().Equals("Main.User"))
             {
                 if (encounter.Contain(type))
                 {
-                    if (userCounter == 3)
+                    if (userCounter == 5)
                     {
                         instance = default;
                         return true;
@@ -254,7 +256,7 @@ namespace Faker
                 GenerateFillProps(instance, type);
                 GenerateFillFields(instance, type);
 
-                encounter.Remove(type);
+                //encounter.Remove(type);
                 return true;
             }
 

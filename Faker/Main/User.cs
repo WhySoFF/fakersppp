@@ -6,7 +6,7 @@ namespace Main
     {
         public String name;
         public int age;
-        public  Dog dogs;
+        public Dog[] dogs;
         public long test { get; set; }
         public float money = 10.5f;
         public Profile profile;
@@ -16,12 +16,7 @@ namespace Main
    {
         public string name;
         public User owner;
-        public Dog(string name,User owner)
-        {
-            this.name = name;
-            this.owner = owner;
-        }
-        
+
     }
 
    public class Profile
@@ -35,7 +30,7 @@ namespace Main
         {
         
             this.address = address;
-            throw new Exception();
+            //throw new Exception();
         }
     }
 }
