@@ -6,7 +6,7 @@ namespace Main
     {
         public String name;
         public int age;
-        public  Dog[] dogs;
+        public  Dog dogs;
         public long test { get; set; }
         public float money = 10.5f;
         public Profile profile;

@@ -158,49 +158,97 @@ namespace Faker
             Console.WriteLine();
         }
 
-
-        int counter = 0;
+        int dogCounter = 1;
+        int userCounter = 1;
 
         private bool TryGenerateCls(Type type, out object instance)
         {
             instance = null;
+            Console.WriteLine(type.ToString());
 
             if (!type.IsClass && !type.IsValueType)
                 return false;
 
-            if (encounter.Contain(type))
-            {
-                if(encounter.Get(type) == 2)
-                {
-                    Console.WriteLine("mamasita");
+            //ShowMap(encounter, "hello");
+            //Console.WriteLine(type);
 
+
+            if (type.ToString().Equals("Main.Dog"))
+            {
+                if (encounter.Contain(type))
+                {
+                    if(dogCounter == 2)
+                    {
+                        instance = default;
+                        return true;
+                    }
+                    else
+                    {
+                        encounter.Update(type, dogCounter);
+                        dogCounter++;
+                    }
+                }
+                else
+                {
+                    encounter.Add(type, dogCounter);
+                    dogCounter++;
+                }
+
+            }
+
+            if (type.ToString().Equals("Main.User"))
+            {
+                if (encounter.Contain(type))
+                {
+                    if (userCounter == 3)
+                    {
+                        instance = default;
+                        return true;
+                    }
+                    else
+                    {
+                        encounter.Update(type, userCounter);
+                        userCounter++;
+                    }
+                }
+                else
+                {
+                    encounter.Add(type, userCounter);
+                    userCounter++;
+                }
+            }
+
+
+
+            //создание пустого
+            /*if (encounter.Contain(type))
+            {
+                if (counter == 2)
+                {
+                    circularReferencesEncounter.Remove(type);
                     instance = default;
                     return true;
                 }
+                if (type.ToString().Equals("Main.User"))
+                {
+                    Console.WriteLine("BAW");
 
-                counter++;
-                encounter.Update(type, counter);
-
-            }
-            else
-            {
-                encounter.Add(type, counter);
-            }
-
-
-
-            //ShowMap(encounter, "hello");
-
-
-            /*if (circularReferencesEncounter.Contains(type))
-            {
-
+                    if (TryConstruct(type, out instance))
+                    {
+                        GenerateFillProps(instance, type);
+                        GenerateFillFields(instance, type);
+                        return true;
+                    }
+                }
                 instance = default;
                 return true;
-            }
+            }*/
 
-            circularReferencesEncounter.Add(type);*/
+            //encounter.Add(type, 1);
 
+
+
+            //создание класса
             if (TryConstruct(type, out instance))
             {
                 GenerateFillProps(instance, type);
@@ -218,8 +266,8 @@ namespace Faker
         {
             object[] prms = null;
             instance = null;
-            /*try
-            {*/
+            try
+            {
                 if (TryGetMaxParamsConstructor(type, out ConstructorInfo ctn))
                 {
                     prms = GenerateConstructorParams(ctn);
@@ -227,7 +275,7 @@ namespace Faker
                     instance = ctn.Invoke(prms);
                     return true;
                 }
-            /*}
+            }
             catch
             {
                 countOfException++;
@@ -240,7 +288,7 @@ namespace Faker
 
                 instance = list[constructor].Invoke(parameters);
                 return true;
-            }*/
+            }
 
             return false;
         }

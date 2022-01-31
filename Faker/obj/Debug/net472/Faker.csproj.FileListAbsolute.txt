@@ -14,7 +14,6 @@ C:\Users\mrsti\VisualProjects\FakerSpp\Faker\bin\Debug\net472\Faker.exe.config
 C:\Users\mrsti\VisualProjects\FakerSpp\Faker\bin\Debug\net472\Faker.exe
 C:\Users\mrsti\VisualProjects\FakerSpp\Faker\bin\Debug\net472\Faker.pdb
 C:\Users\mrsti\VisualProjects\FakerSpp\Faker\bin\Debug\net472\Newtonsoft.Json.dll
-C:\Users\mrsti\VisualProjects\FakerSpp\Faker\obj\Debug\net472\Faker.csproj.AssemblyReference.cache
 C:\Users\mrsti\VisualProjects\FakerSpp\Faker\obj\Debug\net472\Faker.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\mrsti\VisualProjects\FakerSpp\Faker\obj\Debug\net472\Faker.AssemblyInfoInputs.cache
 C:\Users\mrsti\VisualProjects\FakerSpp\Faker\obj\Debug\net472\Faker.AssemblyInfo.cs
@@ -22,3 +21,4 @@ C:\Users\mrsti\VisualProjects\FakerSpp\Faker\obj\Debug\net472\Faker.csproj.CoreC
 C:\Users\mrsti\VisualProjects\FakerSpp\Faker\obj\Debug\net472\Faker.csproj.CopyComplete
 C:\Users\mrsti\VisualProjects\FakerSpp\Faker\obj\Debug\net472\Faker.exe
 C:\Users\mrsti\VisualProjects\FakerSpp\Faker\obj\Debug\net472\Faker.pdb
+C:\Users\mrsti\VisualProjects\FakerSpp\Faker\obj\Debug\net472\Faker.csproj.AssemblyReference.cache

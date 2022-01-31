@@ -112,7 +112,17 @@ namespace Faker
             return false;
         }
 
-    
+        public bool containType(String value)
+        {
+            
+            if (_items.Any(i => i.Key.ToString().Equals(value)))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
         public void Update(TKey key, TValue newValue)
         {
          
@@ -130,11 +140,37 @@ namespace Faker
             {
                 throw new ArgumentException($"Словарь не содержит значение с ключом {key}.", nameof(key));
             }
-
     
             var item = _items.SingleOrDefault(i => i.Key.Equals(key));
 
       
+            if (item != null)
+            {
+                item.Value = newValue;
+            }
+        }
+
+        public void UpdateSelected(String key, TValue newValue)
+        {
+
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            if (newValue == null)
+            {
+                throw new ArgumentNullException(nameof(newValue));
+            }
+
+            if (!_items.Any(i => i.Key.ToString().Equals(key)))
+            {
+                throw new ArgumentException($"Словарь не содержит значение с ключом {key}.", nameof(key));
+            }
+
+            var item = _items.SingleOrDefault(i => i.Key.ToString().Equals(key));
+
+
             if (item != null)
             {
                 item.Value = newValue;
