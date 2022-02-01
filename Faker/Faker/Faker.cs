@@ -9,7 +9,6 @@ using Main;
 namespace Faker
 {
 
-    
 
     public class Faker : IFaker
     {
@@ -158,105 +157,47 @@ namespace Faker
             Console.WriteLine();
         }
 
-        int dogCounter = 1;
-        int userCounter = 1;
 
         private bool TryGenerateCls(Type type, out object instance)
         {
             instance = null;
-            Console.WriteLine(type.ToString());
+            //Console.WriteLine(type.ToString());
 
             if (!type.IsClass && !type.IsValueType)
                 return false;
 
-            ShowMap(encounter, "hello");
+            //ShowMap(encounter, "hello");
             //Console.WriteLine(type);
 
-
-            if (type.ToString().Equals("Main.Dog"))
+            if (encounter.Contain(type))
             {
-                if (encounter.Contain(type))
+                if(encounter.Get(type) == 3)
                 {
-                    if(dogCounter == 4)
-                    {
-                        instance = default; 
-                        return true;
-                    }
-                    else
-                    {
-                        encounter.Update(type, dogCounter);
-                        dogCounter++;
-                    }
-                }
-                else
-                {
-                    encounter.Add(type, dogCounter);
-                    dogCounter++;
-                }
-
-                dogCounter--;
-
-            }
-
-            if (type.ToString().Equals("Main.User"))
-            {
-                if (encounter.Contain(type))
-                {
-                    if (userCounter == 5)
-                    {
-                        instance = default;
-                        return true;
-                    }
-                    else
-                    {
-                        encounter.Update(type, userCounter);
-                        userCounter++;
-                    }
-                }
-                else
-                {
-                    encounter.Add(type, userCounter);
-                    userCounter++;
-                }
-            }
-
-
-
-            //создание пустого
-            /*if (encounter.Contain(type))
-            {
-                if (counter == 2)
-                {
-                    circularReferencesEncounter.Remove(type);
                     instance = default;
                     return true;
                 }
-                if (type.ToString().Equals("Main.User"))
+                else
                 {
-                    Console.WriteLine("BAW");
-
-                    if (TryConstruct(type, out instance))
-                    {
-                        GenerateFillProps(instance, type);
-                        GenerateFillFields(instance, type);
-                        return true;
-                    }
+                    int increase = encounter.Get(type);
+                    increase += 1;
+                    encounter.Update(type, increase);
                 }
-                instance = default;
-                return true;
-            }*/
-
-            //encounter.Add(type, 1);
-
-
-
-            //создание класса
+            }
+            else
+            {
+                encounter.Add(type, 1);
+            }
+            
             if (TryConstruct(type, out instance))
             {
                 GenerateFillProps(instance, type);
                 GenerateFillFields(instance, type);
 
-                //encounter.Remove(type);
+
+                int decrease = encounter.Get(type);
+                decrease -= 1;
+                encounter.Update(type, decrease);
+
                 return true;
             }
 
